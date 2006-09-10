@@ -1,0 +1,480 @@
+#!/bin/sh
+# Joner
+echo "Fake IIMONITOR"
+if [ $# -ne 1 ]; then
+	echo "Usage: iimonotor <server-name>" >&2
+	exit 1
+fi
+
+help() {
+/bin/cat <<_EoF_
+Server:
+     SET SERVER [SHUT | CLOSED | OPEN]
+     STOP SERVER
+     SHOW SERVER [LISTEN | SHUTDOWN]
+Session:
+     SHOW [USER] SESSIONS [FORMATTED | STATS]
+     SHOW SYSTEM SESSIONS [FORMATTED | STATS]
+     SHOW ALL SESSIONS [FORMATTED | STATS]
+     FORMAT [ALL | sid] ===== NOT IMPLEMENTED IN FAKE IIMONITOR
+     REMOVE [sid]
+     ===== NOT IMPLEMENTED IN FAKE IIMONITOR:
+     SUSPEND [sid]
+     RESUME [sid] ===== NOT IMPLEMENTED IN FAKE IIMONITOR
+Query:
+     ===== NOT IMPLEMENTED IN FAKE IIMONITOR:
+     KILL [sid]
+Others:
+     QUIT
+_EoF_
+}
+
+showsvr() {
+/bin/cat <<_EoF_ss
+
+ Server: 51001
+
+Connected Sessions (includes system threads)
+
+ Current: 73
+ Limit:  221
+
+Active Sessions
+
+ Current  1
+ Limit  200
+ High Water 26
+
+rdy mask 00008080 state: 00000020
+idle quantums 0./0. (100.%)
+_EoF_ss
+}
+
+showusrsess() {
+/bin/cat <<_EoF_sus
+session 31AD1C80 (msu                     ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK
+session 31EBB3E0 (csu                     ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK,CS_CPU_STATS_MASK
+session 31FA2F20 (siapro                  ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK
+session 355B4200 (sisrnp                  ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK
+Session 333A8200 (webcons                 ) cs_state: CS_COMPUTABLE (8) cs_mask: CS_EDONE_MASK
+session 3414D940 (siscom                  ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK
+Session 3446A0A0 (ingres                  ) cs_state: CS_COMPUTABLE (8) cs_mask: CS_EDONE_MASK
+_EoF_sus
+}
+showusrsess_form() {
+/bin/cat <<_EoF_susf
+session 31AD1C80 (msu                     ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK
+    DB Name: siapro                           (Owned by: dba                              )
+    User: msu                              (msu                             )
+    User Name at Session Startup: msu
+    Terminal: pts/11
+    Group Id:
+    Role Id: role_siapro
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Client user: msu
+    Client host: trf4_prod
+    Client tty: trf4_prod
+    Client pid: 35988
+    Client connection target: siapro
+    Client information: user='msu',host='trf4_prod',tty='trf4_prod',pid=35988,conn='siapro'
+    Description:
+    Query:
+session 31EBB3E0 (csu                     ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK,CS_CPU_STATS_MASK
+    DB Name: siapro                           (Owned by: dba                              )
+    User: csu                              (csu                             )
+    User Name at Session Startup: csu
+    Terminal: pts/30
+    Group Id:
+    Role Id: role_siapro
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Client user: csu
+    Client host: trf4_prod
+    Client tty: trf4_prod
+    Client pid: 54856
+    Client connection target: siapro
+    Client information: user='csu',host='trf4_prod',tty='trf4_prod',pid=54856,conn='siapro'
+    Description:
+    Query:
+session 31FA2F20 (siapro                  ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK
+    DB Name: siapro                           (Owned by: dba                              )
+    User: manut                            (siapro                          )
+    User Name at Session Startup: manut
+    Terminal: pts/28
+    Group Id:
+    Role Id: role_siapro
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Client user: siapro
+    Client host: trf4_prod
+    Client tty: trf4_prod
+    Client pid: 52428
+    Client connection target: siapro
+    Client information: user='siapro',host='trf4_prod',tty='trf4_prod',pid=52428,conn='siapro'
+    Description:
+    Query:
+session 355B4200 (sisrnp                  ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK,CS_NOXACT_MASK
+    DB Name: siapro                           (Owned by: dba                              )
+    User: consulta                         (sisrnp                          )
+    User Name at Session Startup: consulta
+    Terminal: pts/310
+    Group Id:
+    Role Id: role_siapro
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Client user: sisrnp
+    Client host: trf4_prod
+    Client tty: trf4_prod
+    Client pid: 319534
+    Client connection target: siapro
+    Client information: user='sisrnp',host='trf4_prod',tty='trf4_prod',pid=319534,conn='siapro'
+    Description:
+    Query:
+Session 333A8200 (webcons                 ) cs_state: CS_COMPUTABLE (8) cs_mask: CS_EDONE_MASK
+    DB Name: siapro                           (Owned by: dba                              )
+    User: webcons                          (webcons                         )
+    User Name at Session Startup: webcons
+    Terminal: batch
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: QEF (00000006)
+    Client user: nobody
+    Client host: trf4web
+    Client tty: trf4web
+    Client pid: 5730
+    Client connection target: siapro::siapro
+    Client information: user='nobody',host='trf4web',tty='trf4web',pid=5730,conn='siapro::siapro'
+    Description:
+    Query:  select count(*) as processos   from rel_parte_processo_judicial r,                     processo_judicial p                             where  r.cod_advoga_judici in (13341)     and r.num_regist_judici = p.num_regist_judici                and p.sta_proces_judici = 'M'
+session 3414D940 (siscom                  ) cs_state: CS_EVENT_WAIT (BIOR) cs_mask: CS_INTERRUPT_MASK
+    DB Name: certidao                         (Owned by: dba                              )
+    User: siscom                           (siscom                          )
+    User Name at Session Startup: siscom
+    Terminal: batch
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Client user: nobody
+    Client host: trf4web
+    Client tty: trf4web
+    Client pid: 5730
+    Client connection target: siscom::certidao
+    Client information: user='nobody',host='trf4web',tty='trf4web',pid=5730,conn='siscom::certidao'
+    Description:
+    Query:
+Session 3446A0A0 (ingres                  ) cs_state: CS_COMPUTABLE (8) cs_mask:
+    User: ingres                           (ingres                          )
+    User Name at Session Startup: ingres
+    Terminal: batch
+    Activity: (Monitor Session)
+_EoF_susf
+}
+
+showusrsess_stats() {
+/bin/cat <<_EoF_suss
+Session 31AD1C80 (msu                     ) BIOR 317 BIOW 596 DIOR 363 DIOW 12 LIOW 1 Log 1
+Session 31EBB3E0 (csu                     ) BIOR 5073 BIOW 9190 DIOR 7071 DIOW 12 LIOW 26 LKEvnt 1 Log 3 CPU 2090
+Session 31FA2F20 (siapro                  ) BIOR 571161 BIOW 922172 DIOR 159155 DIOW 5403 LIOW 33924 LKEvnt 703 Log 164
+Session 355B4200 (sisrnp                  ) BIOR 119 BIOW 224 DIOR 119 Log 1
+Session 333A8200 (webcons                 ) BIOR 10 BIOW 13 DIOR 19399 LIOW 1
+Session 3414D940 (siscom                  ) BIOR 8 BIOW 13 DIOR 28 LIOW 1
+Session 3446A0A0 (ingres                  ) BIOR 5 BIOW 1359
+_EoF_suss
+}
+
+showsyssess() {
+/bin/cat <<_EoF_sss
+Session 30108008 ( <idle job>             ) cs_state: CS_COMPUTABLE (0) cs_mask:
+session 3031A0E0 ( <Dead Process Detector>) cs_state: CS_EVENT_WAIT (TIME) cs_mask: CS_TIMEOUT_MASK,CS_INTERRUPT_MASK
+session 3031B580 ( <Force Abort Thread>   ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+session 3031CA20 ( <Group Commit Thread>  ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+session 3031DEC0 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+session 3031F360 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+session 30320800 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+session 30321CA0 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+session 30323140 ( <Consistency Pt Thread>) cs_state: CS_EVENT_WAIT (LGEVENT) cs_mask: CS_INTERRUPT_MASK
+session 30324AC0 ( <Event Thread>         ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+session 30325F60 ( <WriteBehind 2048.1>   ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+session 303272E0 ( <WriteBehind 4096.1>   ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+session 30328660 ( <WriteBehind 8192.1>   ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+session 303299E0 ( <Replicator Queue Manag) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+session 3032BE60 ( <Terminator Thread>    ) cs_state: CS_EVENT_WAIT (TIME) cs_mask: CS_TIMEOUT_MASK,CS_INTERRUPT_MASK
+session 3032D940 ( <License Checking Threa) cs_state: CS_EVENT_WAIT (TIME) cs_mask: CS_TIMEOUT_MASK,CS_INTERRUPT_MASK
+_EoF_sss
+}
+
+showsyssess_form() {
+/bin/cat <<_EoF_sssf
+Session 30108008 ( <idle job>             ) cs_state: CS_COMPUTABLE (0) cs_mask:
+Session 30108008 is an internal task; no info avaiable
+session 3031A0E0 ( <Dead Process Detector>) cs_state: CS_EVENT_WAIT (TIME) cs_mask: CS_TIMEOUT_MASK,CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Dead Process Detector>         ( <Dead Process Detector>        )
+    User Name at Session Startup:  <Dead Process Detector>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 3031B580 ( <Force Abort Thread>   ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Force Abort Thread>            ( <Force Abort Thread>           )
+    User Name at Session Startup:  <Force Abort Thread>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 3031CA20 ( <Group Commit Thread>  ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Group Commit Thread>           ( <Group Commit Thread>          )
+    User Name at Session Startup:  <Group Commit Thread>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 3031DEC0 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Log Writer>                    ( <Log Writer>                   )
+    User Name at Session Startup:  <Log Writer>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 3031F360 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Log Writer>                    ( <Log Writer>                   )
+    User Name at Session Startup:  <Log Writer>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 30320800 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Log Writer>                    ( <Log Writer>                   )
+    User Name at Session Startup:  <Log Writer>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 30321CA0 ( <Log Writer>           ) cs_state: CS_EVENT_WAIT (<any>) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Log Writer>                    ( <Log Writer>                   )
+    User Name at Session Startup:  <Log Writer>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 30323140 ( <Consistency Pt Thread>) cs_state: CS_EVENT_WAIT (LGEVENT) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Consistency Pt Thread>         ( <Consistency Pt Thread>        )
+    User Name at Session Startup:  <Consistency Pt Thread>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 30324AC0 ( <Event Thread>         ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Event Thread>                  ( <Event Thread>                 )
+    User Name at Session Startup:  <Event Thread>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Activity: Waiting on event lock signal (LKevent)
+    Description:
+    Query:
+session 30325F60 ( <WriteBehind 2048.1>   ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <WriteBehind 2048.1>            ( <WriteBehind 2048.1>           )
+    User Name at Session Startup:  <WriteBehind 2048.1>
+    Terminal:
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 303272E0 ( <WriteBehind 4096.1>   ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <WriteBehind 4096.1>            ( <WriteBehind 4096.1>           )
+    User Name at Session Startup:  <WriteBehind 4096.1>
+    Terminal:
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 30328660 ( <WriteBehind 8192.1>   ) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <WriteBehind 8192.1>            ( <WriteBehind 8192.1>           )
+    User Name at Session Startup:  <WriteBehind 8192.1>
+    Terminal:
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 303299E0 ( <Replicator Queue Manag) cs_state: CS_EVENT_WAIT (LKEVENT) cs_mask: CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Replicator Queue Management>   ( <Replicator Queue Management>  )
+    User Name at Session Startup:  <Replicator Queue Management>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Description:
+    Query:
+session 3032BE60 ( <Terminator Thread>    ) cs_state: CS_EVENT_WAIT (TIME) cs_mask: CS_TIMEOUT_MASK,CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <Terminator Thread>             ( <Terminator Thread>            )
+    User Name at Session Startup:  <Terminator Thread>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Activity: Waiting for next check time
+    Description:
+    Query:
+session 3032D940 ( <License Checking Threa) cs_state: CS_EVENT_WAIT (TIME) cs_mask: CS_TIMEOUT_MASK,CS_INTERRUPT_MASK
+    DB Name:                                  (Owned by:                                  )
+    User:  <License Checking Thread>       ( <License Checking Thread>      )
+    User Name at Session Startup:  <License Checking Thread>
+    Terminal: NONE
+    Group Id:
+    Role Id:
+    Application Code: 00000000            Current Facility: <None> (00000000)
+    Activity: Waiting for next check time
+    Description:
+    Query:
+_EoF_sssf
+}
+
+showsyssess_stats() {
+/bin/cat <<_EoF_ssss
+Session 30108008 ( <idle job>             )
+Session 3031A0E0 ( <Dead Process Detector>)
+Session 3031B580 ( <Force Abort Thread>   )
+Session 3031CA20 ( <Group Commit Thread>  ) LIOW 2954
+Session 3031DEC0 ( <Log Writer>           ) LIOR 1 LIOW 1558
+Session 3031F360 ( <Log Writer>           ) LIOW 2025
+Session 30320800 ( <Log Writer>           ) LIOW 2944
+Session 30321CA0 ( <Log Writer>           ) LIOW 11420
+Session 30323140 ( <Consistency Pt Thread>) DIOR 238 DIOW 62671 LIOW 7 Lock 9 LKEvnt 3 Log 3 LGEvnt 85
+Session 30324AC0 ( <Event Thread>         ) LKEvnt 8899
+Session 30325F60 ( <WriteBehind 2048.1>   ) DIOR 1 DIOW 3510 LIOW 4 LKEvnt 9 Log 4
+Session 303272E0 ( <WriteBehind 4096.1>   ) LKEvnt 1
+Session 30328660 ( <WriteBehind 8192.1>   ) DIOR 7 DIOW 266 LKEvnt 5
+Session 303299E0 ( <Replicator Queue Manag) LKEvnt 1
+Session 3032BE60 ( <Terminator Thread>    )
+Session 3032D940 ( <License Checking Threa)
+_EoF_ssss
+}
+STAT_LISTEN='OPEN'
+STAT_SHUT='OPEN'
+echo -e "IIMONITOR> \c"
+while read CMD ARGS
+do
+	ARGS=`echo "$ARGS" | /usr/bin/tr [:lower:] [:upper:]`
+	case "$CMD" in
+		'REMOVE'|'remove')
+			if [ "$ARGS" == '' ]; then
+				echo 'Invalid session id'
+			else
+				echo "Session $ARGS removed"
+			fi
+			;;
+		'SET'|'set')
+			case "$ARGS" in
+				'SERVER CLOSED')
+					STAT_LISTEN='CLOSED'
+					echo 'User connections now disabled'
+					;;
+				'SERVER SHUT')
+					STAT_LISTEN='CLOSED'
+					STAT_SHUT='PENDING'
+					echo 'Server will stop. ???. sessions remaining'
+					;;
+				'SERVER OPEN')
+					STAT_LISTEN='OPEN'
+					STAT_SHUT='OPEN'
+					echo 'User connections now allowed'
+					;;
+				*)
+					echo 'Illegal command'
+					;;
+			esac
+			;;
+		'SHOW'|'show')
+			case "$ARGS" in
+				'SERVER')
+					showsvr
+					;;
+				'SERVER LISTEN')
+					echo "$STAT_LISTEN"
+					;;
+				'SERVER SHUTDOWN')
+					echo "$STAT_SHUT"
+					;;
+				'SESSIONS'|'USER SESSIONS')
+					showusrsess
+					;;
+				'SESSIONS FORMATTED'|'USER SESSIONS FORMATTED')
+					showusrsess_form
+					;;
+				'SESSIONS STATS'|'USER SESSIONS STATS')
+					showusrsess_stats
+					;;
+				'SYSTEM SESSIONS')
+					showsyssess
+					;;
+				'SYSTEM SESSIONS FORMATTED')
+					showsyssess_form
+					;;
+				'SYSTEM SESSIONS STATS')
+					showsyssess_stats
+					;;
+				'ALL SESSIONS')
+					(showusrsess ; showsyssess) | /usr/bin/sort -m
+					;;
+				'ALL SESSIONS FORMATTED')
+					(showusrsess_form ; showsyssess_form)
+					;;
+				'ALL SESSIONS STATS')
+					(showusrsess_stats ; showsyssess_stats) | /usr/bin/sort -m
+					;;
+				*)
+					echo 'Illegal command'
+					;;
+			esac
+			;;
+		'STOP'|'stop')
+			if [ "$ARGS" != 'SERVER' ]; then
+				echo 'Illegal command'
+			else
+				echo 'DBMS terminated association'
+				exit
+			fi
+			;;
+		'QUIT'|'quit')
+			break
+			;;
+		'HELP'|'help')
+			help
+			;;
+		*)
+			echo 'Illegal command'
+			;;
+	esac
+	echo -e "IIMONITOR> \c"
+done

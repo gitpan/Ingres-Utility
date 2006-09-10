@@ -1,0 +1,51 @@
+#!/bin/sh
+# Joner
+echo "Fake IINAMU"
+echo -e "IINAMU> \c"
+
+help() {
+/bin/cat <<_EoF_
+Commands are: 
+   STOP                                - Stop Name Service (Superuser only)
+   SHOW [SVR_TYPE]                     - Show list of registered servers,
+                                         INGRES is default type
+   HELP                                - Displays command information
+   QUIT                                - QUIT iinamu
+   ===== NOT IMPLEMENTED IN FAKE IINAMU:
+   ADD  SVR_TYPE OBJ_NAME GCF_ADDRESS  - Add to list of registered
+                                         servers (Superuser only)
+   DEL  SVR_TYPE OBJ_NAME GCF_ADDRESS  - Delete from list of registered
+                                         servers (Superuser only)
+_EoF_
+}
+
+while read CMD ARG
+do
+	case "$CMD" in
+		'SHOW'|'show')
+			case "$ARG" in
+				'COMSVR'|'comsvr')
+					echo 'COMSVR   *   32001'
+					echo 'COMSVR   *   32002'
+					echo 'COMSVR   *   32003'
+					;;
+				'INGRES'|'ingres'|'')
+					echo 'INGRES   *   52001'
+					echo 'INGRES   *   52002'
+					echo 'INGRES   soleserver 52003 (sole server)'
+					;;
+			esac
+			;;
+		'STOP'|'stop')
+			;;
+		'QUIT'|'quit')
+			break
+			;;
+		'HELP'|'help')
+			help
+			;;
+		*)
+			;;
+	esac
+	echo -e "IINAMU> \c"
+done

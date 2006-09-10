@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmlns:UML="org.omg/standards/UML" verified="false" timestamp="" xmi.version="1.2" >
+ <XMI.header>
+  <XMI.documentation>
+   <XMI.exporter>umbrello uml modeller http://uml.sf.net</XMI.exporter>
+   <XMI.exporterVersion>1.2.90</XMI.exporterVersion>
+   <XMI.exporterEncoding>UnicodeUTF8</XMI.exporterEncoding>
+  </XMI.documentation>
+  <XMI.model xmi.name="umbrelloH7Ue1b" href="/tmp/kde-joner/umbrelloH7Ue1b.tmp" />
+  <XMI.metamodel xmi.name="UML" href="UML.xml" xmi.version="1.3" />
+ </XMI.header>
+ <XMI.content>
+  <UML:Model>
+   <UML:Stereotype visibility="public" xmi.id="681" name="tipodedados" />
+   <UML:Class comment="Interface para operação do utilitário IINAMU do RDBMS Ingres, que permite enumerar os diversos servidores registrados em uma instalação através do processo IIGCN, bem como (des)registar servidores." visibility="public" xmi.id="673" name="Ingres::iinamu" >
+    <UML:Operation comment="Cria uma instância desta classe, preparando a interação com o utilitário IINAMU através da classe Expect::Simple" visibility="public" xmi.id="674" type="void" name="iinamu" />
+    <UML:Operation comment="Retorna um string contendo o resultado da execução do comando SHOW." visibility="public" xmi.id="675" type="string" name="show" >
+     <UML:Parameter comment="Tipo de servidor (INGRES/default, COMSVR, IINMSVR, IISTAR, etc.)" visibility="public" xmi.id="676" value="" type="texto" name="server_type" />
+    </UML:Operation>
+    <UML:Operation comment="Executa o comando STOP que finaliza o processo IIGCC, impedindo novas conexões no banco." visibility="public" xmi.id="677" type="void" name="stop" />
+    <UML:Operation comment="Retorna um array contendo uma linha de informação por chamada, previamente coletada pelo método show()." visibility="public" xmi.id="678" type="string" name="getServer" />
+    <UML:Attribute comment="Comando a ser executado para ativar o utilitário IINAMU." visibility="private" xmi.id="679" value="" type="string" name="IINAMU_CMD" />
+    <UML:Attribute comment="Objecto de interação com o comando IINAMU." visibility="private" xmi.id="693" value="" type="Expect::Simple" name="IINAMU_XPCT" />
+    <UML:Attribute comment="Resultado do método show() anterior." visibility="private" xmi.id="696" value="" type="string" name="IINAMU_STREAM" />
+    <UML:Attribute comment="Tipo de servidor solicitado no comando show() anterior." visibility="private" xmi.id="700" value="" type="string" name="IINAMU_SVRTYPE" />
+   </UML:Class>
+   <UML:DataType stereotype="681" visibility="public" xmi.id="680" name="string" />
+   <UML:Class comment="Objeto para interação com com comandos do sistema." visibility="public" xmi.id="683" name="Expect::Simple" >
+    <UML:Operation comment="Envia um comando." visibility="public" xmi.id="684" type="void" name="send" >
+     <UML:Parameter comment="Comando a ser enviado interativamente." visibility="public" xmi.id="685" value="" type="texto" name="cmd" />
+    </UML:Operation>
+    <UML:Operation comment="Construtor de um objeto de interação com comandos." visibility="public" xmi.id="686" type="void" name="Expect::Simple" >
+     <UML:Parameter comment="Comando a ser ativado para interação." visibility="public" xmi.id="687" value="" type="texto" name="Cmd" />
+     <UML:Parameter comment="Texto de prompt que habilita o envio de novos comandos." visibility="public" xmi.id="688" value="" type="texto" name="Prompt" />
+     <UML:Parameter comment="Comando que deve ser enviado para desconexão/encerramento." visibility="public" xmi.id="689" value="" type="int" name="DisconnectCmd" />
+     <UML:Parameter comment="Indicador de ativação de mensagens estendidas." visibility="public" xmi.id="690" value="" type="int" name="Verbose" />
+     <UML:Parameter comment="Indicador de depuração." visibility="public" xmi.id="691" value="" type="int" name="Debug" />
+     <UML:Parameter comment="Tempo pelo qual deve ser esperado o Prompt antes de gerar um erro." visibility="public" xmi.id="692" value="" type="int" name="Timeout" />
+    </UML:Operation>
+   </UML:Class>
+   <UML:DataType stereotype="681" visibility="public" xmi.id="694" name="IINAMU_XPCT" />
+   <UML:Association visibility="public" xmi.id="697" >
+    <UML:Association.connection>
+     <UML:AssociationEndRole visibility="public" aggregation="composite" type="673" />
+     <UML:AssociationEndRole visibility="public" type="683" />
+    </UML:Association.connection>
+   </UML:Association>
+  </UML:Model>
+ </XMI.content>
+ <XMI.extensions xmi.extender="umbrello" >
+  <docsettings viewid="672" documentation="" uniqueid="701" />
+  <diagrams>
+   <diagram snapgrid="0" showattsig="1" fillcolor="#ffffc0" linewidth="0" zoom="100" showgrid="0" showopsig="1" usefillcolor="1" snapx="10" canvaswidth="815" snapy="10" showatts="1" xmi.id="672" documentation="" type="402" showops="1" showpackage="0" name="diagrama de classe" localid="30000" showstereotype="0" showscope="1" snapcsgrid="0" font="Arial,12,-1,5,50,0,0,0,0,0" linecolor="#ff0000" canvasheight="568" >
+    <widgets>
+     <classwidget usesdiagramfillcolour="0" width="255" showattsigs="601" usesdiagramusefillcolour="0" x="267" linecolour="#ff0000" y="0" showopsigs="601" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="0" fillcolour="#ffffc0" height="153" usefillcolor="1" showpubliconly="0" showattributes="1" isinstance="0" xmi.id="673" showoperations="1" showpackage="0" showscope="1" showstereotype="0" font="Arial,12,-1,5,75,0,0,0,0,0" />
+     <classwidget usesdiagramfillcolour="0" width="786" showattsigs="601" usesdiagramusefillcolour="0" x="1" linecolour="#ff0000" y="228" showopsigs="601" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="0" fillcolour="#ffffc0" height="59" usefillcolor="1" showpubliconly="0" showattributes="1" isinstance="0" xmi.id="683" showoperations="1" showpackage="0" showscope="1" showstereotype="0" font="Arial,12,-1,5,75,0,0,0,0,0" />
+     <floatingtext usesdiagramfillcolour="1" width="453" usesdiagramusefillcolour="1" x="171" linecolour="none" y="333" linewidth="none" usesdiagramlinewidth="1" posttext="" usesdiagramlinecolour="1" role="700" fillcolour="none" height="15" usefillcolor="1" pretext="" isinstance="0" xmi.id="699" text="Copyright (c) 2006, Tribunal Regional Federal da 4a Regiao. Todos os direitos reservados." font="AR PL KaitiM Big5,8,-1,5,50,0,0,0,0,0" />
+    </widgets>
+    <messages/>
+    <associations>
+     <assocwidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="683" widgetaid="673" xmi.id="697" >
+      <linepath>
+       <startpoint startx="394" starty="153" />
+       <endpoint endx="394" endy="228" />
+      </linepath>
+     </assocwidget>
+    </associations>
+   </diagram>
+  </diagrams>
+  <listview>
+   <listitem open="1" type="800" id="-1" label="Visões" >
+    <listitem open="1" type="801" id="-1" label="Visão Lógica" >
+     <listitem open="0" type="807" id="672" label="diagrama de classe" />
+     <listitem open="0" type="813" id="683" >
+      <listitem open="0" type="815" id="686" />
+      <listitem open="0" type="815" id="684" />
+     </listitem>
+     <listitem open="1" type="813" id="673" >
+      <listitem open="0" type="814" id="679" />
+      <listitem open="0" type="814" id="696" />
+      <listitem open="0" type="814" id="700" />
+      <listitem open="0" type="814" id="693" />
+      <listitem open="0" type="815" id="678" />
+      <listitem open="0" type="815" id="674" />
+      <listitem open="0" type="815" id="675" />
+      <listitem open="0" type="815" id="677" />
+     </listitem>
+     <listitem open="1" type="830" id="-1" label="Tipos de dados" >
+      <listitem open="1" type="829" id="694" />
+      <listitem open="1" type="829" id="680" />
+     </listitem>
+    </listitem>
+    <listitem open="1" type="802" id="-1" label="Visão Caso de Uso" />
+    <listitem open="1" type="821" id="-1" label="Visão do Componente" />
+    <listitem open="1" type="827" id="-1" label="Visão de Distribuição" />
+   </listitem>
+  </listview>
+  <codegeneration>
+   <codegenerator language="PHP" />
+  </codegeneration>
+ </XMI.extensions>
+</XMI>
